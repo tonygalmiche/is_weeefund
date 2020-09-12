@@ -12,8 +12,10 @@ Module Odoo 11 pour Weeefund
     'website'    : 'http://www.infosaone.com',
     'depends'    : [
         'base',
+        'account_bank_statement_import',
     ],
-    'data' : [
+    'data': [
+        'views/view_account_bank_statement_import.xml',
     ],
     'installable': True,
     'application': True,
