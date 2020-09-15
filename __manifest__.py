@@ -15,6 +15,7 @@ Module Odoo 11 pour Weeefund
         'account_bank_statement_import',
     ],
     'data': [
+        'views/res_partner_view.xml',
         'views/view_account_bank_statement_import.xml',
     ],
     'installable': True,
