@@ -13,10 +13,12 @@ Module Odoo 11 pour Weeefund
     'depends'    : [
         'base',
         'account_bank_statement_import',
+        "mass_mailing",
     ],
     'data': [
         'views/res_partner_view.xml',
         'views/view_account_bank_statement_import.xml',
+        'views/mailing_contact_views.xml',
     ],
     'installable': True,
     'application': True,

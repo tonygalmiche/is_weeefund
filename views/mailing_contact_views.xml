@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- mailing.contact -->
+        <record id="is_view_mail_mass_mailing_contact_form" model="ir.ui.view">
+            <field name="name">is_view_mail_mass_mailing_contact_form</field>
+            <field name="model">mail.mass_mailing.contact</field>
+            <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_contact_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <div style="background-color:orange;color:black;font-size:12pt">Il faut modifier cette fiche via le menu général 'Contacts' (Partenaires)</div>
+                </field>
+            </field>
+        </record>
+</odoo>
