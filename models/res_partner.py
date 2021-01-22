@@ -15,7 +15,7 @@ class ResPartner(models.Model):
         old_mail = self.email
         new_mail = vals.get('email') or self.email
         if old_mail!=new_mail and old_mail!='':
-            contacts = self.env['mail.mass_mailing.contact'].search([('email', '=', old_mail)])
+            contacts = self.env['mail.mass_mailing.contact'].sudo().search([('email', '=', old_mail)])
             for contact in contacts:
                 contact.opt_out = True
         if 'is_mailing_list_ids' in vals or 'email' in vals:
@@ -25,15 +25,20 @@ class ResPartner(models.Model):
                 ids=[]
                 for mailing_list in self.is_mailing_list_ids:
                     ids.append(mailing_list.id)
-            contacts = self.env['mail.mass_mailing.contact'].search([('email', '=', new_mail)])
+            contacts = self.env['mail.mass_mailing.contact'].sudo().search([('email', '=', new_mail)])
             contact = False
             if contacts:
                 contact = contacts[0]
             else:
-                contact=self.env['mail.mass_mailing.contact'].create({'name':new_mail,'email':new_mail})
+                contact=self.env['mail.mass_mailing.contact'].sudo().create({'name':new_mail,'email':new_mail})
             if contact:
-                contact.list_ids=[[6, False, ids]]
-                contact.opt_out = False
+                vals2={
+                    'list_ids': [[6, False, ids]],
+                    'opt_out' : False,
+                }
+                contact.sudo().write(vals2)
+                #contact.list_ids=[[6, False, ids]]
+                #contact.opt_out = False
         res = super(ResPartner, self).write(vals)
         return res
 
