@@ -44,21 +44,20 @@ class ResPartner(models.Model):
 
     @api.multi
     def write(self, vals):
-        old_mail = self.email
-        new_mail = vals.get('email') or self.email
-        if old_mail!=new_mail and old_mail!='':
-            contacts = self.env['mail.mass_mailing.contact'].sudo().search([('email', '=', old_mail)])
-            for contact in contacts:
-                contact.opt_out = True
-
-        if 'active' in vals:
-            email = self.email or False
-            if email:
-                contacts = self.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
+        for obj in self:
+            old_mail = obj.email
+            new_mail = vals.get('email') or obj.email
+            if old_mail!=new_mail and old_mail!='':
+                contacts = obj.env['mail.mass_mailing.contact'].sudo().search([('email', '=', old_mail)])
                 for contact in contacts:
-                    contact.opt_out = not vals['active']
-
-        self._update_mass_mailing_contact(vals,new_mail)
+                    contact.opt_out = True
+            if 'active' in vals:
+                email = obj.email or False
+                if email:
+                    contacts = obj.env['mail.mass_mailing.contact'].sudo().search([('email', '=', email)])
+                    for contact in contacts:
+                        contact.opt_out = not vals['active']
+            self._update_mass_mailing_contact(vals,new_mail)
         res = super(ResPartner, self).write(vals)
         return res
 
